@@ -26,6 +26,7 @@ app.post('/weather', async (req, res) => {
     // for security reasons, this is called from within our server
     const weather_response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric`);
 
+    // endpoint for airquality data
     const airqual_response = await fetch(`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${api_key}`);
 
     // returned weather data from 'openweather'

@@ -1,0 +1,31 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Oxygen', sans-serif;
+
+}
+
+h1, h2 {
+    margin-bottom: 0;
+}
+
+.weather-summary {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
+.temperature {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    margin-top: 0.2em;
+}
+
+
+.weather {
+    margin-top: 0.5em;
+}

@@ -5,6 +5,7 @@ const iconSpan = document.getElementById('icon')
 const tempSpan = document.getElementById('temp');
 const weatherSpan = document.getElementById('weather');
 const btnSaveEntry = document.getElementById('btn-saveEntry')
+const btnLoadEntry = document.getElementById('btn-loadEntry')
 
 
 // global var to store current weather data from openweather api
@@ -57,14 +58,13 @@ async function getWeatherData(currentPosition) {
     const data = await response.json();
     // also store weather data in the global var 'allWeatherData'
     allWeatherData = data;
-    console.log(data);
     displayWeatherData(allWeatherData)
 }
 
 // this function renders the current weather info to the page
-function displayWeatherData(weatherData) {
+function displayWeatherData(allWeatherData) {
     
-    const { name, sys, main, weather } = weatherData.weatherData;
+    const { name, sys, main, weather } = allWeatherData.weatherData;
     citySpan.textContent = name;
     countrySpan.textContent = sys.country;
     tempSpan.textContent = main.temp;
@@ -75,7 +75,7 @@ function displayWeatherData(weatherData) {
     iconSpan.setAttribute('src', `http://openweathermap.org/img/wn/${icon_id}@2x.png`);
     
     
-    console.log(weatherData);
+    console.log(allWeatherData);
 }
 
 // when the user clicks this btn, it will save weather data to our local database
@@ -86,16 +86,16 @@ async function saveWeatherData() {
 
     // declare all vars we want to store weather data for
     const dateRecorded = new Date();
-    const country = allWeatherData.sys.country; // country weather was recorded at
-    const town = allWeatherData.name; // town weather was recorded at
-    const lat = allWeatherData.coord.lat; // latitude weather was recorded at
-    const lon = allWeatherData.coord.lon; // longitude weather was recorded at
-    const temp = allWeatherData.main.temp; // temperature (F) weather was recorded at
-    const humidity = allWeatherData.main.humidity; // humidity 
-    const weather = allWeatherData.weather[0].main; // the type of weather (eg. 'cloudy', 'rainy', etc)
-    const weatherDescription = allWeatherData.weather[0].description; // (expanded description - eg. 'Broken clouds', 'radioactive fallout', etc)
-    const wind = allWeatherData.wind.deg; // wind direction (deg)
-    const windSpeed = allWeatherData.wind.speed; // speed of wind (kph)
+    const country = allWeatherData.weatherData.sys.country; // country weather was recorded at
+    const town = allWeatherData.weatherData.name; // town weather was recorded at
+    const lat = allWeatherData.weatherData.coord.lat; // latitude weather was recorded at
+    const lon = allWeatherData.weatherData.coord.lon; // longitude weather was recorded at
+    const temp = allWeatherData.weatherData.main.temp; // temperature (F) weather was recorded at
+    const humidity = allWeatherData.weatherData.main.humidity; // humidity 
+    const weather = allWeatherData.weatherData.weather[0].main; // the type of weather (eg. 'cloudy', 'rainy', etc)
+    const weatherDescription = allWeatherData.weatherData.weather[0].description; // (expanded description - eg. 'Broken clouds', 'radioactive fallout', etc)
+    const wind = allWeatherData.weatherData.wind.deg; // wind direction (deg)
+    const windSpeed = allWeatherData.weatherData.wind.speed; // speed of wind (kph)
 
     // put all data in a nice little box for transport
     const weatherData = { country, town, lat, lon, temp, humidity, weather, weatherDescription, wind, windSpeed, dateRecorded }
@@ -112,4 +112,13 @@ async function saveWeatherData() {
     const dataToSave = await response.json();
     // provide feedback as to what data was saved to the db
     console.log(dataToSave);
+}
+
+btnLoadEntry.addEventListener('click', loadWeatherData)
+
+async function loadWeatherData() {
+
+    const response = await fetch('/load');
+    const data = await response.json();
+    console.log(data);
 }

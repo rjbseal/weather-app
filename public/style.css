@@ -3,7 +3,8 @@ body {
     padding: 0;
     box-sizing: border-box;
     font-family: 'Oxygen', sans-serif;
-
+    background: #050a30;
+    color: #fff;
 }
 
 h1, h2 {

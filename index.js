@@ -59,6 +59,13 @@ app.post('/save', (req, res) => {
 
 })
 
+app.get('/load', (req, res) => {
+
+    db.find({}, (err, doc) => {
+        res.json(doc)
+    })
+})
+
 
 // https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid={API key}
 
